@@ -1,0 +1,9 @@
+.user{
+    display: flex;
+    cursor: pointer;
+
+    &__active {
+        color: red;
+        font-weight: 800;
+    }
+}
