@@ -136,6 +136,10 @@ const Chat = () => {
 
 	useEffect(scrollToBottom, [messages]);
 
+	useEffect(() => {
+		console.log(selectedUser);
+	}, [selectedUser]);
+
 	return (
 		<div className="flex box-border h-screen">
 			<div className="p-8 bg-main-color-light">
@@ -154,16 +158,16 @@ const Chat = () => {
 			<div className="chat-container w-full p-2">
 				<ul>
 					{selectedUser
-						? selectedUsers.messages.map((message, index) => {
-							return (
-								<li key={index}>
-									{message.username} : {message.content}
-								</li>
-							);
-					  })
-						: messages.map((message, index) => {
+						? selectedUsers.messages.map((message, k) => {
 								return (
-									<li key={index}>
+									<li key={k}>
+										{message.username} : {message.content}
+									</li>
+								);
+						  })
+						: messages.map((message, k) => {
+								return (
+									<li key={k}>
 										{message.username} : {message.content}
 									</li>
 								);
@@ -173,6 +177,7 @@ const Chat = () => {
 				<Input
 					placeholder="Send a message in general chat"
 					selectedUser={selectedUser}
+					setSelectedUser={setSelectedUser}
 				/>
 			</div>
 		</div>

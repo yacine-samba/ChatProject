@@ -1,7 +1,7 @@
 import { socket } from '@/utils/socket';
 import { useRef } from 'react';
 
-const Input = ({ placeholder, selectedUser }) => {
+const Input = ({ placeholder, selectedUser, setSelectedUser }) => {
 	const inputRef = useRef();
 
 	const onKeyDown = e => {
@@ -11,6 +11,15 @@ const Input = ({ placeholder, selectedUser }) => {
 					content: inputRef.current.value,
 					to: selectedUser.userID,
 				});
+
+				const _selectedUser = { ...selectedUser };
+
+				_selectedUser.messages.push({
+					content: inputRef.current.value,
+					username: localStorage.getItem('username'),
+					from: socket.userID,
+				});
+				setSelectedUser(_selectedUser);
 			} else {
 				socket.emit('message', { content: inputRef.current.value });
 				inputRef.current.value = '';

@@ -31,7 +31,7 @@ const Login = () => {
 	return (
 		<div className="flex flex-col content-center h-full">
 			{error !== '' ? <h2>{error}</h2> : ''}
-			<h1 className=" font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center text-white ">
+			<h1 className="font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center text-white">
 				Locked
 			</h1>
 			<h2 className="text-slate-200 font-semibold text-center text-xl sm:text-2x1 lg:text-3x1">
