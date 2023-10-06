@@ -1,0 +1,17 @@
+.message {
+
+    // &:nth-child(even){
+    //     background-color: #ffffff06;
+    // }
+
+    padding: 0.5rem 1rem;
+
+    &__self {
+        text-align: right;
+    }
+
+    &__user {
+        font-weight: 700;
+    }
+
+}

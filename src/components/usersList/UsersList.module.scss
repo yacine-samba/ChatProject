@@ -1,9 +1,15 @@
-.user{
-    display: flex;
+.userList {
+    padding: 1rem 0;
     cursor: pointer;
 
-    &__active {
-        color: red;
-        font-weight: 800;
+
+    .main {
+        padding: 0.25rem;
+        margin: 0.5rem;
+        color: aliceblue;
+        border-radius: 1rem;
+        text-align: center;
+        font-weight: 600;
     }
+
 }

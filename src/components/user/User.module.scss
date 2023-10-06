@@ -1,0 +1,29 @@
+.user {
+    padding: 0.5rem 0.25rem;
+    color: aliceblue;
+    text-align: center;
+    font-weight: 600;
+    position: relative;
+
+    &__active {
+        font-weight: 800;
+    }
+
+    &__disconnected {
+        color: #828282;
+    }
+
+    &__newMessage {
+        height: 16px;
+        width: 16px;
+        color: blueviolet;
+    }
+}
+
+.profil {
+    padding: 0.5rem 0.25rem;
+    text-align: center;
+    font-weight: 800;
+    margin-top: 100%;
+    text-transform: uppercase;
+}

@@ -1,0 +1,15 @@
+.input {
+    appearance: none;
+    width: 100%;
+    color: rgb(220, 226, 231);
+    padding: 1rem 0.75rem;
+    line-height: 1.25;
+    border-top: 1px solid #b2b2b2;
+    background-color: transparent;
+
+    &:focus {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+    }
+
+}

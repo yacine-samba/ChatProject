@@ -1,41 +1,40 @@
 import { useEffect } from 'react';
-import './UsersList.module.scss';
+import User from '../user/User';
+import s from './UsersList.module.scss';
 
-const UsersList = ({ users, selectedUser, setSelectedUser }) => {
+const UsersList = ({ users, setUsers, selectedUser, setSelectedUser, myID }) => {
+	const clearNotification = user => {
+		const _user = [...users];
+
+		const index = _user.findIndex(_user => _user.userID === user.userID);
+
+		_user[index].hasNewMessages = false;
+
+		setUsers(_user);
+	};
+
 	useEffect(() => {
 		console.log('users', users);
 	}, [users]);
 
-	//TODO USERS DICONNECTED STYLES
+	//TODO users last connection
 	return (
-		<div className="userList text-slate-400 py-4">
+		<div className={s.userList}>
+			<div className={s.main} onClick={() => setSelectedUser(null)}>
+				Main
+			</div>
 			{users.map(user => {
-				return user.connected === true ? (
-					<div
-						key={user.id}
-						className={`user ${
-							selectedUser?.userID === user.userID ? 'user__active' : ''
-						}`}
-						onClick={() => setSelectedUser(user)}
-					>
-						<div className="py-2 px-1 my-2 bg-main-color-light text-white rounded-full text-center font-semibold">
-							<p>{user.username}</p>
-						</div>
-					</div>
-				) : 
-				(
-					<div
-						key={user.id}
-						className={`user ${
-							selectedUser?.userID === user.userID ? 'user__active' : ''
-						}`}
-						onClick={() => setSelectedUser(user)}
-					>
-						<div className="py-2 px-1 my-2 bg-main-color rounded-full text-center">
-							<p>{user.username}</p>
-						</div>
-					</div>
-				);
+				if (user.userID !== myID) {
+					return (
+						<User
+							key={user.id}
+							user={user}
+							selectedUser={selectedUser}
+							setSelectedUser={setSelectedUser}
+							clearNotification={clearNotification}
+						/>
+					);
+				}
 			})}
 		</div>
 	);

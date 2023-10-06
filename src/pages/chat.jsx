@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { socket } from '@/utils/socket';
 import { useRouter } from 'next/router';
-import Input from '../components/Input';
+import Input from '../components/input/Input';
 import Commands from '../components/Commands';
 import Notification from '../components/notification/Notification';
 import UsersList from '../components/usersList/usersList';
+import Message from '../components/message/Message';
+import Profil from '../components/user/Profile';
 
 const Chat = () => {
 	const { push } = useRouter();
 	const [messages, setMessages] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [myProfil, setMyProfil] = useState({});
 	const [error, setError] = useState({});
 	const [selectedUser, setSelectedUser] = useState();
 	const messagesEndRef = useRef(null);
@@ -22,12 +25,13 @@ const Chat = () => {
 		localStorage.setItem('sessionID', sessionID);
 		// save the ID of the user
 		socket.userID = userID;
+		setMyProfil(userID);
 	};
 
 	const onConnectionError = err => {
 		console.log(err);
-		localStorage.clear('username');
-		localStorage.clear('sessionsID');
+		localStorage.removeItem('username');
+		localStorage.removeItem('sessionsID');
 		push('/login');
 	};
 
@@ -39,7 +43,7 @@ const Chat = () => {
 			// code 100, vous savez que ça correspond à du spam, donc vous pouvez changer les valeurs
 			case 100:
 				title = `Erreur ${code} : Spam`;
-				content = 'Tu spam trop chacal';
+				content = 'eh eh eh doucement !';
 				break;
 
 			// case 200:
@@ -87,11 +91,37 @@ const Chat = () => {
 		viewerRef.current.scrollTop = viewerRef.current.scrollHeight;
 	};
 
+	const onPrivateMessage = ({ content, from, to, username }) => {
+		const userMessagingIndex = users.findIndex(_user => _user.userID === from);
+
+		const userMessaging = users.find(_user => _user.userID === from);
+
+		if (!userMessaging) return;
+
+		userMessaging.messages.push({
+			content,
+			from,
+			to,
+			username: username,
+		});
+
+		if (userMessaging.userID !== selectedUser?.userID) {
+			userMessaging.hasNewMessages = true;
+		}
+
+		const _users = [...users];
+		_users[userMessagingIndex] = userMessaging;
+
+		setUsers(_users);
+	};
+
 	useEffect(() => {
+		socket.on('private message', onPrivateMessage);
 		socket.on('user connected', onUserConnected);
 		socket.on('user disconnected', onUserDeconnected);
 
 		return () => {
+			socket.off('private message', onPrivateMessage);
 			socket.off('user connected', onUserConnected);
 			socket.off('user disconnected', onUserDeconnected);
 		};
@@ -136,17 +166,20 @@ const Chat = () => {
 
 	useEffect(scrollToBottom, [messages]);
 
-	useEffect(() => {
-		console.log(selectedUser);
-	}, [selectedUser]);
-
 	return (
-		<div className="flex box-border h-screen">
-			<div className="p-8 bg-main-color-light">
+		<div className="flex h-screen">
+			<div className="verticalNavigation">
 				<h1 className=" font-extrabold text-xl sm:text-2xl lg:text-3xl tracking-tight text-center text-white ">
 					Locked
 				</h1>
-				<UsersList users={users} setSelectedUser={selectedUser} />
+				<UsersList
+					users={users}
+					setUsers={setUsers}
+					selectedUser={selectedUser}
+					setSelectedUser={setSelectedUser}
+					myID={myProfil}
+				/>
+				<Profil users={users} myID={myProfil} />
 			</div>
 			{/* <div className="w-full">
 				<Notification
@@ -155,25 +188,34 @@ const Chat = () => {
 					onClose={() => setError(null)}
 				/>
 			</div> */}
-			<div className="chat-container w-full p-2">
-				<ul>
+			<div className="chatContainer">
+				<div>
 					{selectedUser
-						? selectedUsers.messages.map((message, k) => {
+						? selectedUser.messages.map((message, k) => {
 								return (
-									<li key={k}>
-										{message.username} : {message.content}
-									</li>
+									<Message
+										key={k}
+										username={message.username}
+										content={message.content}
+										fromSelf={message.from === socket.userID}
+									/>
+									// <li key={k}>
+									// 	{message.username} : {message.content}
+									// </li>
 								);
 						  })
 						: messages.map((message, k) => {
 								return (
-									<li key={k}>
-										{message.username} : {message.content}
-									</li>
+									<Message
+										key={k}
+										username={message.username}
+										content={message.content}
+										fromSelf={message.from === socket.userID}
+									/>
 								);
 						  })}
-					<div ref={viewerRef} />
-				</ul>
+				</div>
+				<div ref={viewerRef} />
 				<Input
 					placeholder="Send a message in general chat"
 					selectedUser={selectedUser}
