@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import Input from '../components/input/Input';
 import Commands from '../components/Commands';
 import Notification from '../components/notification/Notification';
-import UsersList from '../components/usersList/usersList';
+import UsersList from '../components/usersList/UsersList';
 import Message from '../components/message/Message';
 import Profil from '../components/user/Profile';
 
