@@ -3,15 +3,7 @@
     transition: all 0.7s ease-out;
     color: lightgrey;
     padding: 0.5rem 1rem;
-
-    &__selfPrivate {
-        text-align: right;
-    }
-
-    &__selfPublic &__user {
-        color: #14b8a6;
-    }
-
+    
     &__user {
         font-weight: 700;
         color: aliceblue;

@@ -1,15 +1,90 @@
+@import '@/styles/mixins.scss';
+
 .userList {
     padding: 1rem 0;
-    cursor: pointer;
+    height: 100%;
+    overflow-y: scroll;
 
+    @include custom-scrollbar;
 
     .main {
-        padding: 0.25rem;
-        margin: 0.5rem;
+        position: relative;
+        padding: 0.25rem 0;
         color: aliceblue;
         border-radius: 1rem;
         text-align: center;
         font-weight: 600;
+        cursor: pointer;
+
+        &:not(&__active)::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 50%;
+            width: 0rem;
+            background-color: #14b8a6;
+            border-radius: 0 1px 1px 0;
+            transition: all 0.3s ease-out;
+            animation: decreaseBefore 0.15s ease-in;
+        }
+
+        &__active {
+            cursor: default;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                transition: all 0.3s ease-out;
+                height: 100%;
+                width: 0.25rem;
+                border-radius: 0 1px 1px 0;
+                background-color: #14b8a6;
+            }
+        }
+
+        &:hover:not(&__active) {
+            cursor: pointer;
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                height: 50%;
+                width: 0.25rem;
+                background-color: #14b8a6;
+                border-radius: 0 1px 1px 0;
+                transition: all 0.3s ease-out;
+                animation: increaseBefore 0.15s ease-out;
+            }
+        }
+
     }
 
+}
+
+@keyframes increaseBefore {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 0.25rem;
+    }
+}
+
+@keyframes decreaseBefore {
+    0% {
+        width: 0.25rem;
+    }
+
+    100% {
+        width: 0;
+    }
 }

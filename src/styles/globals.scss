@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import 'mixins.scss';
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -29,12 +30,18 @@ body {
   background-repeat: no-repeat;
   height: 100vh;
   overflow: hidden;
+  @include custom-scrollbar;
+
 }
 
 // 103A34
 .verticalNavigation {
-  padding: 2rem;
+  height: 100vh;
+  max-width: 325px;
+  padding: 2rem 0;
   background-color: #103A34;
+  display: flex;
+  flex-direction: column;
 }
 
 .chatContainer {
@@ -45,14 +52,15 @@ body {
 
   .messageContainer {
     overflow-y: auto;
-    /* IE and Edge */
-    -ms-overflow-style: none;
-    /* Firefox */
-    scrollbar-width: none;
+    @include custom-scrollbar;
+    // /* IE and Edge */
+    // -ms-overflow-style: none;
+    // /* Firefox */
+    // scrollbar-width: none;
 
-    &::-webkit-scrollbar {
-      display: none;
-    } 
+    // &::-webkit-scrollbar {
+    //   display: none;
+    // }
   }
 
 }

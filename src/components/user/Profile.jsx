@@ -5,7 +5,15 @@ const Profil = ({ users, myID }) => {
 		<div className={s.profil}>
 			{users.map(user => {
 				if (myID === user.userID) {
-					return <p key={user.id}>{user.username}</p>;
+					return (
+						<p key={user.id}>
+							{user.username.length > 12 ? (
+								<p>{user.username.substring(0, 12)}...</p>
+							) : (
+								<p>{user.username}</p>
+							)}
+						</p>
+					);
 				}
 			})}
 		</div>

@@ -1,12 +1,26 @@
 .user {
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem 2rem;
     color: aliceblue;
     text-align: center;
     font-weight: 600;
     position: relative;
+    transition: all 0.3s ease-out;
 
     &__active {
-        font-weight: 800;
+        cursor: default;
+
+            &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            transition: all 0.3s ease-out;
+            height: 75%;
+            width: 0.25rem;
+            border-radius: 0 1px 1px 0;
+            background-color: #14b8a6;
+        }
     }
 
     &__disconnected {
@@ -14,16 +28,92 @@
     }
 
     &__newMessage {
-        height: 16px;
-        width: 16px;
-        color: blueviolet;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            height: 25%;
+            width: 0.25rem;
+            transform: translateY(-50%);
+            transition: all 0.3s ease-out;
+            background-color: #14b8a6;
+            border-radius: 0 1px 1px 0;
+            animation: pulse 1.5s infinite;
+        }
+    }
+
+    &:not(&__active)::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        height: 50%;
+        width: 0rem;
+        background-color: #14b8a6;
+        border-radius: 0 1px 1px 0;
+        transition: all 0.3s ease-out;
+        animation: decreaseBefore 0.15s ease-in;
+    }
+
+    &:hover:not(&__active) {
+        cursor: pointer;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            height: 50%;
+            width: 0.25rem;
+            background-color: #14b8a6;
+            border-radius: 0 1px 1px 0;
+            transition: all 0.3s ease-out;
+            animation: increaseBefore 0.15s ease-out;
+        }
     }
 }
 
 .profil {
-    padding: 0.5rem 0.25rem;
+    cursor: default;
+    padding: 0.5rem 3rem;
     text-align: center;
     font-weight: 800;
-    margin-top: 100%;
     text-transform: uppercase;
+}
+
+@keyframes increaseBefore {
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 0.25rem;
+    }
+}
+
+@keyframes decreaseBefore {
+    0% {
+        width: 0.25rem;
+    }
+
+    100% {
+        width: 0;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 #2ecc709d;
+    }
+
+    70% {
+        box-shadow: 0 0 0 4px #2ecc7000;
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 #2ecc7000;
+    }
 }

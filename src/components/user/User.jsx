@@ -16,9 +16,13 @@ const User = ({ user, selectedUser, setSelectedUser, clearNotification }) => {
 				clearNotification(user);
 			}}
 		>
-			<p>{user.username}</p>
+			{user.username.length > 12 ? (
+				<p>{user.username.substring(0, 12)}...</p>
+			) : (
+				<p>{user.username}</p>
+			)}
 			{user.hasNewMessages === true ? (
-				<span className={s.user__newMessage}>notif</span>
+				<span className={s.user__newMessage}></span>
 			) : null}
 		</div>
 	);

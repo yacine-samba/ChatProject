@@ -11,7 +11,13 @@ const Message = ({ username, content, fromSelfPrivate, fromSelfPublic, sending }
 			message__sending
 			`}
 		>
-			<span className={s.message__user}>{username}</span>
+			<span className={s.message__user}>
+				{username.length > 16 ? (
+					<p>{username.substring(0, 16)}...</p>
+				) : (
+					<p>{username}</p>
+				)}
+			</span>
 			<br /> {content}
 		</div>
 	);

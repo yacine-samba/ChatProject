@@ -208,7 +208,7 @@ const Chat = () => {
 										username={message.username}
 										content={message.content}
 										fromSelfPrivate={message.from === socket.userID}
-										isLoading={loading}
+										sending={sending}
 									/>
 								);
 						  })

@@ -20,7 +20,7 @@ const UsersList = ({ users, setUsers, selectedUser, setSelectedUser, myID }) => 
 	//TODO users last connection
 	return (
 		<div className={s.userList}>
-			<div className={s.main} onClick={() => setSelectedUser(null)}>
+			<div className={`${s.main} ${selectedUser === null ? s.main__active : ''}`} onClick={() => setSelectedUser(null)}>
 				Main
 			</div>
 			{users.map(user => {
