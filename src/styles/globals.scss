@@ -28,6 +28,7 @@ body {
       rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
   background-repeat: no-repeat;
   height: 100vh;
+  overflow: hidden;
 }
 
 // 103A34
@@ -41,4 +42,17 @@ body {
   width: 100%;
   flex-direction: column;
   justify-content: flex-end;
+
+  .messageContainer {
+    overflow-y: auto;
+    /* IE and Edge */
+    -ms-overflow-style: none;
+    /* Firefox */
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    } 
+  }
+
 }

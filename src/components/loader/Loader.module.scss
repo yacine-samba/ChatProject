@@ -1,0 +1,19 @@
+.loader {
+    padding: 0.5rem 1rem;
+
+    &__spinner {
+        display: inline-block;
+        width: 1rem;
+        height: 1rem;
+        border: 0.2rem solid #ffffff06;
+        border-top-color: #ffffff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

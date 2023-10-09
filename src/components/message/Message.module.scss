@@ -1,17 +1,41 @@
 .message {
-
-    // &:nth-child(even){
-    //     background-color: #ffffff06;
-    // }
-
+    position: relative;
+    transition: all 0.7s ease-out;
+    color: lightgrey;
     padding: 0.5rem 1rem;
 
-    &__self {
+    &__selfPrivate {
         text-align: right;
+    }
+
+    &__selfPublic &__user {
+        color: #14b8a6;
     }
 
     &__user {
         font-weight: 700;
+        color: aliceblue;
     }
 
+    &__loading:last-child {
+        background-color: #ffffff06;
+    }
+
+    &__sending:last-child {
+        animation: sending 0.5s ease-out;
+    }
+}
+
+@keyframes sending {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
 }

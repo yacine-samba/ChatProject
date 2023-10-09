@@ -15,6 +15,8 @@ const Chat = () => {
 	const [myProfil, setMyProfil] = useState({});
 	const [error, setError] = useState({});
 	const [selectedUser, setSelectedUser] = useState();
+	const [loading, setLoading] = useState(false);
+	const [sending, setSending] = useState(false);
 	const messagesEndRef = useRef(null);
 	const viewerRef = useRef();
 
@@ -30,8 +32,8 @@ const Chat = () => {
 
 	const onConnectionError = err => {
 		console.log(err);
-		localStorage.removeItem('username');
-		localStorage.removeItem('sessionsID');
+		localStorage.clear('username');
+		localStorage.clear('sessionsID');
 		push('/login');
 	};
 
@@ -69,9 +71,17 @@ const Chat = () => {
 	};
 
 	const onMessage = message => {
-		setMessages(oldMdessage => {
-			return [...oldMdessage, message];
-		});
+		setLoading(true);
+		console.log('en cours');
+		setTimeout(() => {
+			console.log('envoyé');
+			setMessages(oldMdessage => {
+				return [...oldMdessage, message];
+			});
+			setLoading(false);
+			setSending(true);
+		}, 850);
+		setSending(false);
 	};
 
 	const onUserConnected = _user => {
@@ -189,7 +199,7 @@ const Chat = () => {
 				/>
 			</div> */}
 			<div className="chatContainer">
-				<div>
+				<div className="messageContainer">
 					{selectedUser
 						? selectedUser.messages.map((message, k) => {
 								return (
@@ -197,22 +207,25 @@ const Chat = () => {
 										key={k}
 										username={message.username}
 										content={message.content}
-										fromSelf={message.from === socket.userID}
+										fromSelfPrivate={message.from === socket.userID}
+										isLoading={loading}
 									/>
-									// <li key={k}>
-									// 	{message.username} : {message.content}
-									// </li>
 								);
 						  })
 						: messages.map((message, k) => {
+								// if (loading && k === messages.length - 1) {
+								// 	return <h1>laoder</h1>;
+								// } else {
 								return (
 									<Message
 										key={k}
 										username={message.username}
 										content={message.content}
-										fromSelf={message.from === socket.userID}
+										fromSelfPublic={message.from === socket.userID}
+										sending={sending}
 									/>
 								);
+								// }
 						  })}
 				</div>
 				<div ref={viewerRef} />
@@ -220,6 +233,7 @@ const Chat = () => {
 					placeholder="Send a message in general chat"
 					selectedUser={selectedUser}
 					setSelectedUser={setSelectedUser}
+					loading={loading}
 				/>
 			</div>
 		</div>

@@ -1,3 +1,7 @@
+.containerInput {
+    position: relative;
+}
+
 .input {
     appearance: none;
     width: 100%;
@@ -12,4 +16,47 @@
         outline-offset: 2px;
     }
 
+    //#14b8a6    
+}
+
+.btnSubmit {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 1rem;
+    padding: 0.5rem 0.75rem;
+    background-color: #14b8a6;
+    font-weight: 700;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        background-color: #0e8e7a;
+    }
+
+    .arrow {
+        display: inline-block;
+        margin-left: 0.5rem;
+        fill: #f0f8ff;
+    }
+}
+
+.loader {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #14b8a6;
+    font-weight: 700;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        background-color: #0e8e7a;
+    }
 }
