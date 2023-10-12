@@ -4,44 +4,174 @@
 @import 'mixins.scss';
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --main-text-color: #f0f8ff;
+  --main-text-color-light: #dae0e6;
+  --main-text-color-black: #212121;
+  --background-start: #2E3346;
+  --background-end: #1d202d;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 7, 39, 34;
-    --background-end-rgb: 2, 11, 10;
-  }
-}
 
-// start #072722;
+// start #072722;2E3346
 // back #020b0a;
 
 body {
   margin: 0;
   padding: 0;
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  color: var(--main-text-color);
+  background: linear-gradient(to bottom, var(--background-start), var(--background-end));
   background-repeat: no-repeat;
   height: 100vh;
   overflow: hidden;
   @include custom-scrollbar;
+  //smooth
+  scroll-behavior: smooth;
 
 }
 
-// 103A34
-.verticalNavigation {
+// HomePage
+
+.homeContainer {
   height: 100vh;
-  max-width: 325px;
-  padding: 2rem 0;
-  background-color: #103A34;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: auto;
+
+  &__title {
+    font-size: 3.75rem;
+    line-height: 1;
+    font-weight: 300;
+    text-align: center;
+
+    span {
+      font-weight: 800;
+    }
+  }
+
+  &__buttonLogin {
+    font-size: 1.25rem;
+    padding: 0.75rem 3rem;
+    border-radius: 0.5rem;
+    background-color: #108e80;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: #0e7b6c;
+    }
+  }
+}
+
+//LoginPage
+
+.loginContainer {
+  width: 420px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+
+  &__title {
+    text-align: center;
+
+    h1 {
+      font-size: 5rem;
+      line-height: 1;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-weight: 300;
+      font-size: 1.5rem;
+      color: var(--main-text-color-light);
+    }
+
+    margin-bottom: 4rem;
+  }
+
+
+  &__form {
+    padding: 2rem 4rem;
+    width: 100%;
+
+    .formContainer {
+      margin-bottom: 0.5rem;
+
+      label {
+        display: block;
+        color: var(--main-text-color-light);
+        margin-bottom: 0.5rem;
+      }
+
+      input {
+        padding: 0.75rem 1.5rem;
+        border-width: 1px;
+        border-radius: 0.25rem;
+        color: rgb(55 65 81);
+        margin-bottom: 0.75rem;
+        width: 100%;
+        background-color: var(--main-text-color-light);
+      }
+
+      .input__error {
+        border: 1px solid rgb(239, 68, 68);
+        animation: error 0.3s ease-in-out;
+      }
+
+      .error {
+        color: rgb(239 68 68);
+        font-size: 0.75rem;
+        font-style: italic;
+      }
+    }
+
+
+    button {
+      font-size: 1.25rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.25rem;
+      background-color: #108e80;
+      font-weight: 500;
+      transition: background-color 0.2s ease-in-out;
+      position: relative;
+
+      &:hover {
+        background-color: #0e7b6c;
+      }
+
+      &__loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+    }
+  }
+}
+
+.mainContainer {
+  display: flex;
+  height: 100vh;
+
+  .verticalNavigation {
+    height: 100vh;
+    max-width: 325px;
+    padding: 2rem 0;
+    background-color: #1C4247;
+    display: flex;
+    flex-direction: column;
+
+    &__title {
+      font-size: 1.75rem;
+      text-align: center;
+      font-weight: 800;
+    }
+  }
 }
 
 .chatContainer {
@@ -53,14 +183,29 @@ body {
   .messageContainer {
     overflow-y: auto;
     @include custom-scrollbar;
-    // /* IE and Edge */
-    // -ms-overflow-style: none;
-    // /* Firefox */
-    // scrollbar-width: none;
-
-    // &::-webkit-scrollbar {
-    //   display: none;
-    // }
   }
 
+}
+
+// Animation
+@keyframes error {
+  0% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-0.5rem);
+  }
+
+  50% {
+    transform: translateX(0.5rem);
+  }
+
+  75% {
+    transform: translateX(-0.5rem);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
 }

@@ -1,10 +1,17 @@
 import { socket } from '@/utils/socket';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import s from './Input.module.scss';
 import Loader from '../loader/Loader';
 
-const Input = ({ placeholder, selectedUser, setSelectedUser, loading }) => {
+const Input = ({ placeholder, selectedUser, setSelectedUser, sending }) => {
 	const inputRef = useRef();
+	const [loading, setLoading] = useState(false);
+	const [sound, setSound] = useState({});
+
+	const onCommand = () => {
+		sound.sendingMessage.currentTime = 0;
+		sound.sendingMessage.play();
+	};
 
 	const sendMessage = e => {
 		if (inputRef.current.value.length !== 0) {
@@ -24,8 +31,15 @@ const Input = ({ placeholder, selectedUser, setSelectedUser, loading }) => {
 				setSelectedUser(_selectedUser);
 				inputRef.current.value = '';
 			} else {
-				socket.emit('message', { content: inputRef.current.value });
-				inputRef.current.value = '';
+				setLoading(true);
+				setTimeout(() => {
+					setLoading(false);
+					sending(false);
+					socket.emit('message', { content: inputRef.current.value });
+					inputRef.current.value = '';
+					onCommand();
+				}, 850);
+				sending(true);
 			}
 		}
 	};
@@ -36,9 +50,20 @@ const Input = ({ placeholder, selectedUser, setSelectedUser, loading }) => {
 		}
 	};
 
-	const onSubmit = e => {
+	const onSubmit = () => {
 		sendMessage();
 	};
+
+	useEffect(() => {
+		setSound({
+			sendingMessage: new Audio('/assets/sendingMessage.mp3'),
+		});
+
+		socket.on('command', onCommand);
+		return () => {
+			socket.off('command', onCommand);
+		};
+	}, []);
 
 	return (
 		<div className={s.containerInput}>

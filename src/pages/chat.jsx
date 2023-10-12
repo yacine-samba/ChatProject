@@ -18,7 +18,6 @@ const Chat = () => {
 	const [loading, setLoading] = useState(false);
 	const [sending, setSending] = useState(false);
 	const messagesEndRef = useRef(null);
-	const viewerRef = useRef();
 
 	const onSession = ({ sessionID, userID }) => {
 		// attach the session ID to the next reconnection attempts
@@ -70,20 +69,6 @@ const Chat = () => {
 		setMessages(messagesAtInit);
 	};
 
-	const onMessage = message => {
-		setLoading(true);
-		console.log('en cours');
-		setTimeout(() => {
-			console.log('envoyé');
-			setMessages(oldMdessage => {
-				return [...oldMdessage, message];
-			});
-			setLoading(false);
-			setSending(true);
-		}, 850);
-		setSending(false);
-	};
-
 	const onUserConnected = _user => {
 		setUsers(currentUsers => {
 			return [...currentUsers, _user];
@@ -98,7 +83,13 @@ const Chat = () => {
 	};
 
 	const scrollToBottom = () => {
-		viewerRef.current.scrollTop = viewerRef.current.scrollHeight;
+		messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
+	};
+
+	const onMessage = message => {
+		setMessages(oldMdessage => {
+			return [...oldMdessage, message];
+		});
 	};
 
 	const onPrivateMessage = ({ content, from, to, username }) => {
@@ -121,7 +112,6 @@ const Chat = () => {
 
 		const _users = [...users];
 		_users[userMessagingIndex] = userMessaging;
-
 		setUsers(_users);
 	};
 
@@ -174,14 +164,14 @@ const Chat = () => {
 		};
 	}, []);
 
-	useEffect(scrollToBottom, [messages]);
+	useEffect(() => {
+		scrollToBottom();
+	}, [messages, selectedUser]);
 
 	return (
-		<div className="flex h-screen">
+		<div className="mainContainer">
 			<div className="verticalNavigation">
-				<h1 className=" font-extrabold text-xl sm:text-2xl lg:text-3xl tracking-tight text-center text-white ">
-					Locked
-				</h1>
+				<h1 className="verticalNavigation__title">Locked</h1>
 				<UsersList
 					users={users}
 					setUsers={setUsers}
@@ -199,7 +189,7 @@ const Chat = () => {
 				/>
 			</div> */}
 			<div className="chatContainer">
-				<div className="messageContainer">
+				<div ref={messagesEndRef} className="messageContainer">
 					{selectedUser
 						? selectedUser.messages.map((message, k) => {
 								return (
@@ -213,9 +203,6 @@ const Chat = () => {
 								);
 						  })
 						: messages.map((message, k) => {
-								// if (loading && k === messages.length - 1) {
-								// 	return <h1>laoder</h1>;
-								// } else {
 								return (
 									<Message
 										key={k}
@@ -225,16 +212,16 @@ const Chat = () => {
 										sending={sending}
 									/>
 								);
-								// }
 						  })}
 				</div>
-				<div ref={viewerRef} />
+				<div />
 				<Input
 					placeholder="Send a message in general chat"
 					selectedUser={selectedUser}
 					setSelectedUser={setSelectedUser}
-					loading={loading}
+					sending={() => setSending()}
 				/>
+				<Commands />
 			</div>
 		</div>
 	);

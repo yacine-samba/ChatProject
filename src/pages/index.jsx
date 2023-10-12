@@ -2,12 +2,14 @@ import Link from 'next/link';
 
 const Home = () => {
 	return (
-		<div className="flex flex-col h-screen items-center space-x-4">
-			<h1 className="font-medium text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center text-white">
+		<div className="homeContainer">
+			<h1 className="homeContainer__title">
 				Welcome to <br />
-				<span className="font-extrabold">Locket</span>
+				<span>Locket</span>
 			</h1>
-			<Link href="/login">Log in</Link>
+			<Link href="/login" className="homeContainer__buttonLogin">
+				Log in
+			</Link>
 		</div>
 	);
 };
